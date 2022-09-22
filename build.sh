@@ -2,7 +2,7 @@
 
 ###versions
 
-nginx_version="1.22.0"
+nginx_version="1.23.1"
 module_version="1.0.0rc"
 
 # build nginx module

@@ -16,7 +16,6 @@ tar xfv nginx-$nginx_version.tar.gz
 
 # download module source
 wget https://github.com/google/ngx_brotli/archive/refs/tags/v$module_version.tar.gz
-https://github.com/google/ngx_brotli/archive/refs/tags/v1.0.0rc.tar.gz
 
 # extract
 tar xfv v$module_version.tar.gz

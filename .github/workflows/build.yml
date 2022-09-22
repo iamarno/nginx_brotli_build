@@ -1,0 +1,44 @@
+# use github CI
+
+name: CI
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build_vts_module:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: check out repository
+      uses: actions/checkout@v3
+      with:
+        ref: main
+
+    - name: create module directory
+      run: mkdir /home/runner/module
+
+    - name: build local docker image
+      run: docker build .
+
+    - name: tag local docker image
+      run: docker build -t local_build_image .
+  
+    - name: run local docker build image and build module
+      run: docker run --mount type=bind,source=/home/runner/module,target=/module local_build_image
+
+    - name: upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ngx_http_brotli_filter_module.so
+        path: /home/runner/module/ngx_http_brotli_filter_module.so
+        retention-days: 5
+        if-no-files-found: error
+
+    - name: upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ngx_http_brotli_static_module.so
+        path: /home/runner/module/ngx_http_brotli_static_module.so
+        retention-days: 5
+        if-no-files-found: error
